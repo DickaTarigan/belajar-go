@@ -7,5 +7,6 @@
 ## Kendala / bagian yang masih bingung
 - tadinya masih blum terbiasa untuk convert rune stringnya
 
+
 ## Link referensi (kalau ada)
 
