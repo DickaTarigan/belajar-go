@@ -19,9 +19,11 @@ func counter(kalimat string) map[string]int {
 
 func main() {
 	kalimat := strings.ToLower("Aku Anak Indonesia sehat dan kuat dan antinarkoba")
-	fmt.Println(counter(kalimat))
+	hitung := counter(kalimat)
 
-	for kata, jumlah := range counter(kalimat) {
+	fmt.Println(hitung)
+
+	for kata, jumlah := range hitung {
 		fmt.Printf("Kata: %s : %d \n", kata, jumlah)
 	}
 }
