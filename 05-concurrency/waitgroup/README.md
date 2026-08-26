@@ -1,7 +1,7 @@
 # WaitGroup
 
-## Apa yang gue pelajari di sini
-
+## Apa yang di pelajari di sini
+- Belajar wait group
 
 ## Kendala / bagian yang masih bingung
 
