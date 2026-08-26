@@ -1,7 +1,15 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
+	"time"
+)
 
 func main() {
-	fmt.Println("TODO: Goroutine Dasar")
+	for i := 1; i <= 10; i++ {
+		go func() {
+			fmt.Println(i)
+		}()
+	}
+	time.Sleep(time.Second)
 }
