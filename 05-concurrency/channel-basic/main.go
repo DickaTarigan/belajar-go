@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"time"
 )
 
 func main() {
@@ -16,6 +17,7 @@ func main() {
 		fmt.Println("Goroutine: pesan 2 terkirim!")
 	}()
 
+	time.Sleep(2 * time.Second)
 	fmt.Println("Main: baru sekarang mau nerima...")
 	fmt.Println("Main terima:", <-ch)
 	fmt.Println("Main terima:", <-ch)
