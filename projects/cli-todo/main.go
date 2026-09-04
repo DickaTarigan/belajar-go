@@ -96,6 +96,7 @@ func main() {
 		err = saveTodos("todos.json", todos)
 		if err != nil {
 			fmt.Println("Error:", err)
+			return
 		}
 
 		fmt.Println("Todo Berhasil Ditambahkan:", judul)
@@ -124,17 +125,92 @@ func main() {
 		if len(os.Args) != 3 {
 			fmt.Println("Error: Harus menggunakan 1 ID")
 			fmt.Println("Usage: main.go done <ID>")
+			return
 		}
 
 		//Konversi string di cli menjadi int
-		id, err := strconv.Atoi(os.Args[3])
+		id, err := strconv.Atoi(os.Args[2])
 		if err != nil {
-			fmt.Println("Error:", err, id)
+			fmt.Println("Error: ID harus bilangan bulat", err)
+			return
 		}
 
-		fmt.Println("Mau tandain selesai")
+		todos, err := loadTodos("todos.json")
+		if err != nil {
+			fmt.Print("Error:", err)
+			return
+		}
+
+		//cari id
+		ditemukan := false
+
+		for i := range todos {
+			if id == todos[i].ID {
+				todos[i].Selesai = true
+				ditemukan = true
+				break
+			}
+		}
+
+		//Jika tidak ditemukan
+		if !ditemukan {
+			fmt.Println("Error: ID tidak ditemukan")
+			return
+		}
+
+		err = saveTodos("todos.json", todos)
+		if err != nil {
+			fmt.Println("Error:", err)
+			return
+		}
+
+		fmt.Printf("ID %d Berhasil di tandai selesai \n", id)
+
 	case "delete":
-		fmt.Println("Mau Hapus todo")
+		if len(os.Args) != 3 {
+			fmt.Println("Error: Harus menggunakan 1 ID")
+			fmt.Println("Usage: main.go delete <ID>")
+			return
+		}
+
+		//Konversi string di cli menjadi int
+		id, err := strconv.Atoi(os.Args[2])
+		if err != nil {
+			fmt.Println("Error: ID harus bilangan bulat", err)
+			return
+		}
+
+		todos, err := loadTodos("todos.json")
+		if err != nil {
+			fmt.Println("Error:", err)
+			return
+		}
+
+		//cari id
+		ditemukan := false
+
+		for i := range todos {
+			if id == todos[i].ID {
+				todos = append(todos[:i], todos[i+1:]...)
+				ditemukan = true
+				break
+			}
+		}
+
+		//Jika tidak ditemukan
+		if !ditemukan {
+			fmt.Println("Error: ID tidak ditemukan")
+			return
+		}
+
+		err = saveTodos("todos.json", todos)
+		if err != nil {
+			fmt.Println("Error:", err)
+			return
+		}
+
+		fmt.Printf("ID %d Berhasil di hapus \n", id)
+
 	default:
 		fmt.Println("Command tidak dikenal:", command)
 	}
