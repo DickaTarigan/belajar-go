@@ -5,6 +5,7 @@ import (
 	"errors"
 	"fmt"
 	"os"
+	"strconv"
 )
 
 type Todo struct {
@@ -70,8 +71,8 @@ func main() {
 
 	switch command {
 	case "add":
-		if len(os.Args) < 3 {
-			fmt.Println("Error: Judul ToDo tidak boleh kosong")
+		if len(os.Args) != 3 {
+			fmt.Println("Error: Judul Harus diapit tanda kutip jika lebih dari 1 kata")
 			fmt.Println("Usage: main.go add \"Judul ToDo\"")
 			return
 		}
@@ -100,8 +101,37 @@ func main() {
 		fmt.Println("Todo Berhasil Ditambahkan:", judul)
 
 	case "list":
-		fmt.Println("Mau liat todo")
+		todos, err := loadTodos("todos.json")
+		if err != nil {
+			fmt.Println("Error:", err)
+			return
+		}
+
+		if len(todos) == 0 {
+			fmt.Println("Belum ada data Todo")
+			return
+		}
+
+		for _, todo := range todos {
+			if todo.Selesai {
+				fmt.Printf("%d. [X] %s \n", todo.ID, todo.Judul)
+			} else {
+				fmt.Printf("%d. [ ] %s \n", todo.ID, todo.Judul)
+			}
+		}
+
 	case "done":
+		if len(os.Args) != 3 {
+			fmt.Println("Error: Harus menggunakan 1 ID")
+			fmt.Println("Usage: main.go done <ID>")
+		}
+
+		//Konversi string di cli menjadi int
+		id, err := strconv.Atoi(os.Args[3])
+		if err != nil {
+			fmt.Println("Error:", err, id)
+		}
+
 		fmt.Println("Mau tandain selesai")
 	case "delete":
 		fmt.Println("Mau Hapus todo")
